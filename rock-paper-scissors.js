@@ -103,4 +103,4 @@ function playGame(times){
 // console.log("Hello World! Rock paper scissors shoot!")
 
 //play the game x times
-playGame(10);
+playGame(5);
