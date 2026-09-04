@@ -3,7 +3,15 @@
 //STEP 4- declare score variables
 let humanScore = 0;
 let computerScore = 0;
+const resultsP = document.querySelector(".results p")
+const humanScoreP = document.querySelector("#humanScore")
+const computerScoreP = document.querySelector("#computerScore")
+const buttonsDiv = document.querySelector(".buttons");
 
+//add event listener for buttons object
+buttonsDiv.addEventListener("click", buttonHandler)
+
+    
 //STEP 2- get the computer choice
 function getComputerChoice() {
     //get random number from 0 to 1, times by 3 and floor to get 0 1 2
@@ -32,15 +40,40 @@ function getHumanChoice(){
 }
 //helper function for win
 function youWin(humanChoice, computerChoice) {
-    alert(`You Win! ${humanChoice} beats ${computerChoice}`)
-    console.log(`You Win! ${humanChoice} beats ${computerChoice}`)
+    
+    resultsP.textContent = `You Win! ${humanChoice} beats ${computerChoice}`
     humanScore += 1;
+    humanScoreP.textContent = `Human Score: ${humanScore}`;
+    checkScore()
 }
 //helper functin for lose
 function youLose(humanChoice, computerChoice) {
-    alert(`You Lose! ${computerChoice} beats ${humanChoice}`)
-    console.log(`You Lose! ${computerChoice} beats ${humanChoice}`)
+    
+    resultsP.textContent = `You Lose! ${computerChoice} beats ${humanChoice}`
     computerScore += 1;
+    computerScoreP.textContent = `Computer Score: ${computerScore}`
+    checkScore()
+}
+
+
+function checkScore() {
+    if ((humanScore < 5 && computerScore < 5)) return;
+
+    //runs if player or computer wins 5 times
+    if (humanScore > computerScore) {
+        resultsP.textContent = `Congratulations, you won! Let's play again!`
+    } else {
+        resultsP.textContent = `Oh no, you lost! Lets try again`
+    }
+
+    resetGame();
+}
+
+function resetGame(){
+    humanScore = 0;
+    computerScore = 0;
+    computerScoreP.textContent = "Computer Score: 0"
+    humanScoreP.textContent = "Human Score: 0"
 }
 //STEP 5 - write logic to play single round
 function playRound(humanChoice, computerChoice) {
@@ -52,8 +85,8 @@ function playRound(humanChoice, computerChoice) {
 
     //tie first
     if (humanChoice === computerChoice) {
-        alert("It's a tie! Try again!");
-        console.log("It's a tie! Try again!");
+        const resultsP = document.querySelector(".results p")
+        resultsP.textContent = "It's a tie! Try again!"
         return;
     }
     if (humanChoice === "rock") {
@@ -77,6 +110,7 @@ function playRound(humanChoice, computerChoice) {
     }
 }
 
+//play the game a specific number of times, no longer needed for gui game
 function playGame(times){
     //play the game 5 times
     for(let i = 0; i< times; i++) {
@@ -97,10 +131,19 @@ function playGame(times){
 
     console.log(gameOutcomeMessage)
     alert(gameOutcomeMessage)
-
 }
 
-// console.log("Hello World! Rock paper scissors shoot!")
-
-//play the game x times
-playGame(5);
+//determine which button was pressed and what to do
+function buttonHandler (event) {
+    switch(event.target.id){
+        case "rock":
+            playRound("rock", getComputerChoice())
+            break;
+        case "paper":
+            playRound("paper", getComputerChoice())
+            break;
+        case "scissors":
+            playRound("scissors", getComputerChoice())
+            break;
+    }
+}

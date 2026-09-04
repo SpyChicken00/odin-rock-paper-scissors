@@ -2,3 +2,9 @@ html {
     background-color: black;
     color:white;
 }
+
+.buttons button {
+    font-size:30px;
+    background-color: whitesmoke;
+    box-shadow: none;
+}
